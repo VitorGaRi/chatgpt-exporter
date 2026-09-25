@@ -1,9 +1,9 @@
 {
   "manifest_version": 3,
-  "name": "ChatGPT → Markdown",
-  "version": "2.1.0",
+  "name": "ChatGPT Exporter",
+  "version": "2.2.0",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wky7PWPwbTns7zf3sNnLmIyJxoXYRD/cccckkH3TGUTIH3YKyu345P+bOhUDa91QFbwIknMlNSVLuT2cEBEMkxqmoUyRyAyVnavDIYenCE9k9I5jc9PTqZGp9WJrS7867pSnnytihOQf5rqdXZYZ1cJe8BqKUl/JNGEHPGdAYBiObu6ggflJQoM9dEjwKxIczkxVk1BWCr3MMuJlh3g+idQmWbYncQ1CASRsUyicB5uzyz5MJ6v2Ijf+yHOF5qln7cxhXtadSFXPTwlWeWCtFaBqjhuumbyda1OiyCUP6YJe42pnRUW/3q2TSp9PREtOphpO3+xbrFkU6pObDVC7wIDAQAB",
-  "description": "Downloads the open ChatGPT conversation, in full, as a .md file",
+  "description": "Exports the open ChatGPT conversation, in full, to a file (currently Markdown)",
   "permissions": ["activeTab", "scripting", "storage"],
   "host_permissions": ["https://chatgpt.com/*", "https://chat.openai.com/*"],
   "icons": {
@@ -13,7 +13,7 @@
     "128": "icons/icon128.png"
   },
   "action": {
-    "default_title": "ChatGPT → Markdown",
+    "default_title": "ChatGPT Exporter",
     "default_popup": "popup.html",
     "default_icon": {
       "16": "icons/icon16.png",
