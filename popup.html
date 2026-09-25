@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>ChatGPT → Markdown</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <header>
+    <img src="icons/icon32.png" alt="" width="20" height="20">
+    <h1>ChatGPT → Markdown</h1>
+  </header>
+
+  <button id="run" disabled>Download conversation</button>
+
+  <div id="status" class="status" role="status" aria-live="polite"></div>
+
+  <fieldset>
+    <legend>Options</legend>
+    <label class="row">
+      <span>Method</span>
+      <select id="method">
+        <option value="auto">Auto (API, then scroll)</option>
+        <option value="api">API only</option>
+        <option value="scroll">Scroll only</option>
+      </select>
+    </label>
+    <label class="check">
+      <input type="checkbox" id="includeHeader">
+      Include title, link and date at the top
+    </label>
+    <label class="check">
+      <input type="checkbox" id="dateInFilename">
+      Prefix file name with today's date
+    </label>
+  </fieldset>
+
+  <footer>
+    <span id="version"></span> ·
+    <a href="#" data-doc="README.md">README</a> ·
+    <a href="#" data-doc="CHANGELOG.md">Changelog</a>
+  </footer>
+
+  <script src="exporter.js"></script>
+  <script src="popup.js"></script>
+</body>
+</html>
