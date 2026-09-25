@@ -70,10 +70,10 @@ runBtn.addEventListener("click", async () => {
       setStatus("err", "Export failed: " + result.error,
         result.apiError && result.apiError !== result.error ? "API error: " + result.apiError : "");
     } else if (result.method === "scroll" && result.apiError) {
-      setStatus("warn", `Downloaded ${result.count} messages (scroll method, plain text).`,
+      setStatus("warn", `Exported ${result.count} messages (scroll method, plain text).`,
         `${result.filename} — API failed: ${result.apiError}`);
     } else {
-      setStatus("ok", `Downloaded ${result.count} messages via ${result.method === "api" ? "API" : "scroll"}.`,
+      setStatus("ok", `Exported ${result.count} messages via ${result.method === "api" ? "API" : "scroll"}.`,
         result.filename);
     }
   } catch (e) {

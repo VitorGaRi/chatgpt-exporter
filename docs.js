@@ -57,7 +57,7 @@ function render(md) {
 (async () => {
   const f = new URLSearchParams(location.search).get("f");
   const file = ALLOWED.includes(f) ? f : "README.md";
-  document.title = `${file.replace(".md", "")} — ChatGPT → Markdown`;
+  document.title = `${file.replace(".md", "")} — ChatGPT Exporter`;
   document.getElementById("version").textContent = "v" + chrome.runtime.getManifest().version;
   const el = document.getElementById("content");
   try {

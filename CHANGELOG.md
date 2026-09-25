@@ -4,6 +4,14 @@ All notable changes to this project.
 
 Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
 
+## [2.2.0] - 2026-09-26
+
+### Changed
+
+- Renamed from **ChatGPT → Markdown** to **ChatGPT Exporter**: the extension exports conversations, and Markdown is the first supported format. Options are kept (same extension ID).
+- Popup button is now **Export conversation**, and success messages say "Exported N messages".
+- README lists the supported formats.
+
 ## [2.1.0] - 2026-09-26
 
 ### Added

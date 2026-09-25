@@ -111,7 +111,7 @@ async function exportChat(opts) {
         md += turnMd(role, text);
         count++;
       } catch (e) {
-        console.warn("[ChatGPT→MD] error in a message, skipping:", e, node);
+        console.warn("[ChatGPT Exporter] error in a message, skipping:", e, node);
       }
     }
     if (!count) throw new Error("API returned no messages.");
@@ -211,7 +211,7 @@ async function exportChat(opts) {
         method = "api";
       } catch (e) {
         apiError = e.message;
-        console.warn("[ChatGPT→MD] API failed:", e);
+        console.warn("[ChatGPT Exporter] API failed:", e);
         if (opts.method === "api") throw e;
       }
     }

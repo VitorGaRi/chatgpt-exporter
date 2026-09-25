@@ -1,12 +1,14 @@
-# ChatGPT → Markdown
+# ChatGPT Exporter
 
-Chromium extension (Chrome, Edge, Vivaldi, Brave…) that downloads the ChatGPT conversation currently open on screen as a **Markdown (.md)** file — in full, even if it isn't entirely loaded on the page.
+Chromium extension (Chrome, Edge, Vivaldi, Brave…) that exports the ChatGPT conversation currently open on screen to a file — in full, even if it isn't entirely loaded on the page.
+
+**Supported formats:** Markdown (`.md`). More formats may be added in the future.
 
 ## Installation
 
 1. Open `chrome://extensions` (or `edge://extensions`, `brave://extensions`).
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this extension's folder (`chatgpt-to-markdown`, the one containing `manifest.json`).
+3. Click **Load unpacked** and select this extension's folder (`chatgpt-exporter`, the one containing `manifest.json`).
 
 After changing any file, click the reload button (↻) on the extension's card.
 
@@ -25,14 +27,14 @@ The manifest has a fixed `key`, which keeps the extension's ID the same wherever
 
 1. Open a conversation on `chatgpt.com`.
 2. Click the extension icon. A small popup opens.
-3. Click **Download conversation**. A `<conversation title>.md` file is downloaded.
+3. Click **Export conversation**. A `<conversation title>.md` file is downloaded.
 
 The popup tells you what happened:
 
 - **Not a ChatGPT page / no conversation open**: the button stays disabled.
 - **Exporting…**: in progress. You can close the popup; the download still happens.
-- **Downloaded N messages via API**: success.
-- **Downloaded N messages (scroll method)**: worked, but the API failed and the fallback was used (plain text only). The API error is shown.
+- **Exported N messages via API**: success.
+- **Exported N messages (scroll method)**: worked, but the API failed and the fallback was used (plain text only). The API error is shown.
 - **Export failed**: nothing was downloaded; the reason is shown.
 
 ### Options
