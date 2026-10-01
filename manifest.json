@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "ChatGPT Exporter",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA2wky7PWPwbTns7zf3sNnLmIyJxoXYRD/cccckkH3TGUTIH3YKyu345P+bOhUDa91QFbwIknMlNSVLuT2cEBEMkxqmoUyRyAyVnavDIYenCE9k9I5jc9PTqZGp9WJrS7867pSnnytihOQf5rqdXZYZ1cJe8BqKUl/JNGEHPGdAYBiObu6ggflJQoM9dEjwKxIczkxVk1BWCr3MMuJlh3g+idQmWbYncQ1CASRsUyicB5uzyz5MJ6v2Ijf+yHOF5qln7cxhXtadSFXPTwlWeWCtFaBqjhuumbyda1OiyCUP6YJe42pnRUW/3q2TSp9PREtOphpO3+xbrFkU6pObDVC7wIDAQAB",
   "description": "Exports the open ChatGPT conversation, in full, to a file (currently Markdown)",
   "permissions": ["activeTab", "scripting", "storage"],

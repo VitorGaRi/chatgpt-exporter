@@ -1,76 +1,83 @@
 # ChatGPT Exporter
 
-Chromium extension (Chrome, Edge, Vivaldi, Brave…) that exports the ChatGPT conversation currently open on screen to a file — in full, even if it isn't entirely loaded on the page.
+A Chromium extension (Chrome, Edge, Vivaldi, Brave) that saves the ChatGPT conversation open in the current tab to a file. It exports the whole conversation, including the parts the page hasn't loaded yet.
 
-**Supported formats:** Markdown (`.md`). More formats may be added in the future.
+Markdown (`.md`) is the only output format for now.
 
 ## Installation
 
 1. Open `chrome://extensions` (or `edge://extensions`, `brave://extensions`).
 2. Enable **Developer mode**.
-3. Click **Load unpacked** and select this extension's folder (`chatgpt-exporter`, the one containing `manifest.json`).
+3. Click **Load unpacked** and select the `chatgpt-exporter` folder, the one that contains `manifest.json`.
 
-After changing any file, click the reload button (↻) on the extension's card.
+After you change any file, click the reload button (↻) on the extension's card.
 
 ### Moving or renaming the folder
 
-Chromium loads an unpacked extension from a fixed path, so after moving or renaming this folder the extension has to be loaded again from the new location.
-
-The manifest has a fixed `key`, which keeps the extension's ID the same wherever the folder lives, so your options survive the move. To keep them:
+Chromium loads an unpacked extension from a fixed path. If you move or rename the folder, load the extension again from the new location:
 
 1. Move or rename the folder.
-2. On the extensions page, click **Load unpacked** and select the folder at its new location. It replaces the old entry.
+2. On the extensions page, click **Load unpacked** and select the folder in its new place. This replaces the old entry.
 
-**Don't remove the extension before loading it again**: removing it erases its saved options. If you delete or change the `key` in `manifest.json`, the ID changes and the browser treats it as a new extension, without the old options.
+Your options survive the move because `manifest.json` has a fixed `key`, which keeps the extension's ID the same wherever the folder is.
+
+Two things erase the saved options: removing the extension before you load it again, and deleting or changing the `key`. A different `key` gives the extension a new ID, and the browser treats it as a new extension.
 
 ## Usage
 
 1. Open a conversation on `chatgpt.com`.
-2. Click the extension icon. A small popup opens.
-3. Click **Export conversation**. A `<conversation title>.md` file is downloaded.
+2. Click the extension icon to open the popup.
+3. Click **Export conversation**. The browser downloads `<conversation title>.md`.
 
-The popup tells you what happened:
+The popup reports the result:
 
-- **Not a ChatGPT page / no conversation open**: the button stays disabled.
-- **Exporting…**: in progress. You can close the popup; the download still happens.
-- **Exported N messages via API**: success.
-- **Exported N messages (scroll method)**: worked, but the API failed and the fallback was used (plain text only). The API error is shown.
-- **Export failed**: nothing was downloaded; the reason is shown.
+| Message | Meaning |
+|---|---|
+| This isn't a ChatGPT page / No conversation open | The button stays disabled until you open a conversation. |
+| Exporting… | The export is running. You can close the popup and the file still downloads. |
+| Exported N messages via API | The export worked. |
+| Exported N messages (scroll method, plain text) | The API failed, so the extension used the scroll method. The popup shows the API error. |
+| Export failed | Nothing was downloaded. The popup shows the reason. |
 
 ### Options
 
-Saved automatically and synced with your browser profile.
+The popup saves your options as you change them, and the browser syncs them with your profile.
 
-- **Method**: *Auto* (API, then scroll if it fails), *API only* or *Scroll only*.
-- **Include title, link and date at the top** of the file (on by default).
-- **Prefix file name with today's date**, e.g. `2026-09-26 My chat.md` (off by default).
+| Option | Default | What it does |
+|---|---|---|
+| Method | Auto | *Auto* tries the API and falls back to scrolling. *API only* and *Scroll only* force one method. |
+| Include title, link and date at the top | On | Adds a header to the file. |
+| Prefix file name with today's date | Off | Names the file `2026-09-26 My chat.md`. |
 
 The popup footer shows the version and links to this README and the changelog.
 
 ## How it works
 
-1. **API** (primary): reads the full conversation through the internal API the site itself uses, with your existing logged-in session. Gets everything, with the responses' original Markdown formatting.
-2. **Scroll** (fallback): scrolls the conversation to the top and then down step by step, collecting each rendered turn. Only plain text comes out, without the original formatting.
+The extension has two ways to read a conversation.
+
+The API method asks ChatGPT's own internal API for the conversation, using the session you are already logged in with. It returns every message with the original Markdown formatting.
+
+The scroll method is the fallback. It scrolls the conversation to the top, then down one step at a time, and collects each turn as the page renders it. The result is plain text without the original formatting.
 
 ## What gets exported
 
 - Your messages and ChatGPT's, in conversation order.
-- Images and files you sent appear only as a placeholder (`📎 _[image: name.png]_`), without their content.
-- In conversations with edited messages, only the branch visible on screen is exported.
-- Internal reasoning (thinking), tool calls and hidden messages are skipped.
+- Images and files you sent appear as a placeholder such as `📎 _[image: name.png]_`. Their content is not exported.
+- If you edited messages, the export contains only the branch shown on screen.
+- Internal reasoning, tool calls and hidden messages are skipped.
 - ChatGPT's internal citation markers are removed.
 
-## Structure
+## Files
 
-```
-manifest.json      # Manifest V3
-popup.html/css/js  # Popup: run button, options, status, footer
-exporter.js        # exportChat(): injected into the ChatGPT tab
-docs.html/js       # Renders README.md / CHANGELOG.md inside the extension
-icons/             # Extension icons (16, 32, 48, 128 px)
-```
+| File | Role |
+|---|---|
+| `manifest.json` | Extension definition and permissions (Manifest V3) |
+| `popup.html`, `popup.css`, `popup.js` | Popup with the export button, options, status and footer |
+| `exporter.js` | `exportChat()`, the function the popup injects into the ChatGPT tab |
+| `docs.html`, `docs.js` | Page that shows this README and the changelog inside the extension |
+| `icons/` | Extension icon in 16, 32, 48 and 128 px |
 
-See the change history in [CHANGELOG.md](CHANGELOG.md).
+The change history is in [CHANGELOG.md](CHANGELOG.md).
 
 ## License
 

@@ -1,5 +1,5 @@
-// Renders README.md / CHANGELOG.md inside the extension with a tiny Markdown subset
-// (headings, lists, code blocks, inline code, bold, italic, links).
+// Renders README.md and CHANGELOG.md inside the extension. Supports a small Markdown
+// subset: headings, lists, tables, code blocks, inline code, bold, italic and links.
 const ALLOWED = ["README.md", "CHANGELOG.md"];
 
 const esc = (s) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
@@ -10,6 +10,7 @@ function inline(s) {
   s = s
     .replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
     .replace(/(^|[\s(])_([^_]+)_(?=[\s).,:;]|$)/g, "$1<em>$2</em>")
+    .replace(/\*([^*\s][^*]*)\*/g, "<em>$1</em>")
     .replace(/\[([^\]]+)\]\(([^)]+)\)/g, (_, text, href) => {
       if (ALLOWED.includes(href)) return `<a href="docs.html?f=${href}">${text}</a>`;
       if (/^https?:\/\//.test(href)) return `<a href="${href}" target="_blank" rel="noopener">${text}</a>`;
@@ -32,6 +33,18 @@ function render(md) {
       const code = [];
       while (++i < lines.length && !lines[i].startsWith("```")) code.push(lines[i]);
       out.push(`<pre><code>${esc(code.join("\n"))}</code></pre>`);
+      continue;
+    }
+    if (line.startsWith("|")) {
+      flushPara(); flushList();
+      const rows = [];
+      for (; i < lines.length && lines[i].startsWith("|"); i++) {
+        rows.push(lines[i].trim().replace(/^\||\|$/g, "").split("|").map((c) => c.trim()));
+      }
+      i--;
+      const cells = (row, tag) => "<tr>" + row.map((c) => `<${tag}>${inline(c)}</${tag}>`).join("") + "</tr>";
+      // rows[1] is the |---|---| separator
+      out.push(`<table><thead>${cells(rows[0], "th")}</thead><tbody>${rows.slice(2).map((r) => cells(r, "td")).join("")}</tbody></table>`);
       continue;
     }
     let m;
@@ -57,7 +70,7 @@ function render(md) {
 (async () => {
   const f = new URLSearchParams(location.search).get("f");
   const file = ALLOWED.includes(f) ? f : "README.md";
-  document.title = `${file.replace(".md", "")} — ChatGPT Exporter`;
+  document.title = `ChatGPT Exporter: ${file.replace(".md", "")}`;
   document.getElementById("version").textContent = "v" + chrome.runtime.getManifest().version;
   const el = document.getElementById("content");
   try {

@@ -16,7 +16,7 @@ function setStatus(kind, text, detail) {
   }
 }
 
-// ---------- Options (saved in chrome.storage.sync) ----------
+// Options, saved in chrome.storage.sync
 async function loadOptions() {
   const opts = await chrome.storage.sync.get(DEFAULTS);
   $("method").value = opts.method;
@@ -34,7 +34,7 @@ function readOptions() {
   $(id).addEventListener("change", () => chrome.storage.sync.set(readOptions()))
 );
 
-// ---------- Check the current tab ----------
+// Enable the button only on a ChatGPT conversation
 async function checkTab() {
   [tab] = await chrome.tabs.query({ active: true, currentWindow: true });
   const url = tab?.url || "";
@@ -50,7 +50,7 @@ async function checkTab() {
   setStatus("", "");
 }
 
-// ---------- Run ----------
+// Run the export in the tab and report the result
 runBtn.addEventListener("click", async () => {
   const opts = readOptions();
   runBtn.disabled = true;
@@ -71,7 +71,7 @@ runBtn.addEventListener("click", async () => {
         result.apiError && result.apiError !== result.error ? "API error: " + result.apiError : "");
     } else if (result.method === "scroll" && result.apiError) {
       setStatus("warn", `Exported ${result.count} messages (scroll method, plain text).`,
-        `${result.filename} — API failed: ${result.apiError}`);
+        `${result.filename}. API failed: ${result.apiError}`);
     } else {
       setStatus("ok", `Exported ${result.count} messages via ${result.method === "api" ? "API" : "scroll"}.`,
         result.filename);
@@ -83,7 +83,7 @@ runBtn.addEventListener("click", async () => {
   }
 });
 
-// ---------- Footer ----------
+// Footer: version and docs links
 $("version").textContent = "v" + chrome.runtime.getManifest().version;
 document.querySelectorAll("[data-doc]").forEach((a) =>
   a.addEventListener("click", (e) => {
