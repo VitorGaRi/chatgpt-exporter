@@ -1,5 +1,5 @@
-// Injected into the ChatGPT page by popup.js via chrome.scripting.executeScript.
-// Must be self-contained. Returns a result object instead of alerting:
+// popup.js injects this function into the ChatGPT tab with chrome.scripting.executeScript,
+// so it can't use anything defined outside itself. It returns a result object:
 //   { ok: true, count, method, apiError, filename }  or  { ok: false, error }
 async function exportChat(opts) {
   opts = Object.assign({ method: "auto", includeHeader: true, dateInFilename: false }, opts);
@@ -17,7 +17,7 @@ async function exportChat(opts) {
   const header = (title, date) =>
     !opts.includeHeader ? "" :
     `# ${title}\n\n` +
-    (date ? `_Exported from ${location.href} — ${date}_\n\n` : `_Exported from ${location.href}_\n\n`) +
+    (date ? `_Exported from ${location.href} on ${date}_\n\n` : `_Exported from ${location.href}_\n\n`) +
     "---\n\n";
 
   const download = (title, md) => {
@@ -34,7 +34,7 @@ async function exportChat(opts) {
     return a.download;
   };
 
-  // ---------- Method 1: internal API (gets the whole conversation, regardless of what is rendered) ----------
+  // Method 1: ChatGPT's internal API. Returns the whole conversation, whatever the page has rendered.
   async function viaApi() {
     const id = (location.pathname.match(/\/c\/([\w-]+)/) || [])[1];
     if (!id) throw new Error("No conversation open (URL has no /c/<id>).");
@@ -93,7 +93,7 @@ async function exportChat(opts) {
         }
         let text = clean(pieces.join("\n\n"));
 
-        // Attachments (images, PDFs etc.) — only indicate what was sent
+        // Attachments (images, PDFs etc.): only say what was sent
         const attachments = (msg.metadata?.attachments || [])
           .map((a) => `📎 _[${/^image\//.test(a.mime_type || "") ? "image" : "file"}: ${a.name || "unnamed"}]_`);
         if (hasImage && !attachments.some((a) => a.includes("[image"))) {
@@ -118,7 +118,7 @@ async function exportChat(opts) {
     return { title: data.title, md, count };
   }
 
-  // ---------- Method 2 (fallback): scroll the page and collect what gets rendered ----------
+  // Method 2, the fallback: scroll the page and collect each turn as it renders.
   async function viaScroll() {
     const firstTurn = document.querySelector("article, [data-message-author-role]");
     if (!firstTurn) throw new Error("No messages found on the page.");
@@ -195,7 +195,7 @@ async function exportChat(opts) {
     const title = document.title.replace(/\s*[-|]\s*ChatGPT\s*$/i, "") || "ChatGPT Conversation";
     let md = header(title, new Date().toLocaleString());
     let items = orderList.map((k) => collected.get(k));
-    // If every turn has a number (conversation-turn-N), it is the most reliable source
+    // Turn numbers (conversation-turn-N) give the true order, so use them when every turn has one
     if (items.every((it) => it.num !== null)) items.sort((a, b) => a.num - b.num);
     if (!items.length) throw new Error("No messages collected while scrolling.");
     items.forEach(({ role, text }) => { md += turnMd(role, text); });

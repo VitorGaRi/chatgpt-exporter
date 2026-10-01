@@ -1,22 +1,28 @@
 # Changelog
 
-All notable changes to this project. 
+The format follows [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and the versions follow [SemVer](https://semver.org/).
 
-Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versions follow [SemVer](https://semver.org/).
+## [2.2.1] - 2026-10-01
+
+### Changed
+
+- README, changelog, code comments and popup messages rewritten in plainer language.
+- The header of the exported file now reads `Exported from <link> on <date>`.
+- The page that shows the README inside the extension can render tables.
 
 ## [2.2.0] - 2026-09-26
 
 ### Changed
 
-- Renamed from **ChatGPT → Markdown** to **ChatGPT Exporter**: the extension exports conversations, and Markdown is the first supported format. Options are kept (same extension ID).
-- Popup button is now **Export conversation**, and success messages say "Exported N messages".
-- README lists the supported formats.
+- Renamed from "ChatGPT → Markdown" to "ChatGPT Exporter". The extension exports conversations, and Markdown is the first format it supports. The extension ID is the same, so saved options are kept.
+- The popup button is now **Export conversation**, and the success messages say "Exported N messages".
+- The README lists the supported formats.
 
 ## [2.1.0] - 2026-09-26
 
 ### Added
 
-- Fixed extension ID (`key` in the manifest), so moving or renaming the folder no longer resets the options. The ID changes one last time with this update.
+- Fixed extension ID (`key` in the manifest). Moving or renaming the folder no longer resets the options. The ID changes one last time with this update.
 - README section on moving or renaming the folder.
 - MIT license.
 
@@ -24,38 +30,38 @@ Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/), versio
 
 ### Changed (breaking)
 
-- Clicking the icon now opens a **popup** instead of exporting right away. The export runs from the popup's **Download conversation** button.
-- The `_(method: …)_` line is no longer written at the end of the exported file; the popup shows the method and any API error instead.
+- Clicking the icon opens a popup. The export starts from the popup's **Download conversation** button, where before it started on the click.
+- The exported file no longer ends with the `_(method: …)_` line. The popup shows the method and any API error.
 
 ### Added
 
-- Status feedback in the popup: wrong site, no conversation open, exporting, success (message count, method, file name), fallback used (with the API error) and failure.
-- Options, saved with `chrome.storage.sync`: method (Auto / API only / Scroll only), include header (title, link, date) and date prefix in the file name.
-- Popup footer with the version and links to README and changelog, rendered inside the extension (`docs.html`).
-- `storage` permission (for the options).
+- Status messages in the popup: wrong site, no conversation open, exporting, success (with message count, method and file name), fallback used (with the API error) and failure.
+- Options saved with `chrome.storage.sync`: method (Auto, API only or Scroll only), header with title, link and date, and date prefix in the file name.
+- Popup footer with the version and links to the README and changelog, which open inside the extension (`docs.html`).
+- `storage` permission, needed for the options.
 
 ### Removed
 
-- `background.js` service worker; the export code now lives in `exporter.js` and is injected by the popup.
+- The `background.js` service worker. The export code is now in `exporter.js`, and the popup injects it.
 
 ## [1.2.0] - 2026-09-25
 
 ### Added
 
-- Extension icon (16, 32, 48 and 128 px) in `icons/`.
+- Extension icon in 16, 32, 48 and 128 px, in `icons/`.
 
 ## [1.1.0] - 2026-09-25
 
 ### Changed
 
-- Everything translated to English: exported file text (`👤 You`, `_[image sent]_`, `_(method: API)_`…), error messages, code comments, manifest, README and CHANGELOG.
-- The scroll method still recognizes both the English and Portuguese ChatGPT UI.
+- Translated to English: the text in the exported file (`👤 You`, `_[image sent]_`, `_(method: API)_`), error messages, code comments, manifest, README and changelog.
+- The scroll method still recognizes the ChatGPT interface in both English and Portuguese.
 
 ## [1.0.1] - 2026-09-25
 
 ### Added
 
-- `README.md` with installation, usage and how the extension works.
+- `README.md` covering installation, usage and how the extension works.
 - `CHANGELOG.md`.
 
 ## [1.0.0] - 2026-09-25
@@ -64,34 +70,34 @@ First stable release.
 
 ### Fixed
 
-- Messages came out of order with the scroll method. Order now comes from the turn number (`conversation-turn-N`) or, when missing, from the position relative to neighbouring messages on screen.
+- The scroll method wrote messages out of order. It now sorts them by turn number (`conversation-turn-N`). When a turn has no number, it places the message next to its neighbours on screen.
 
 ### Added
 
-- When the API fails, the reason appears in the file's last line.
+- When the API fails, the last line of the file gives the reason.
 
 ## [0.2.0] - 2026-09-25
 
 ### Fixed
 
-- Messages with an image were skipped, along with the text sent with the image and ChatGPT's reply.
+- A message with an image was skipped, together with the text sent with it and ChatGPT's reply.
 
 ### Added
 
-- Images and files sent appear as `📎 _[image: name]_` / `📎 _[file: name]_`.
-- Your messages without text appear as `_[message without text]_` instead of disappearing.
-- The method used (API or scroll) is noted at the end of the file.
+- Images and files you sent appear as `📎 _[image: name]_` or `📎 _[file: name]_`.
+- A message of yours with no text appears as `_[message without text]_`.
+- The last line of the file names the method used (API or scroll).
 
 ### Changed
 
-- An error in one message no longer stops the export; only that message is skipped.
-- The scroll method reads each whole turn (including images outside the text block) and scrolls in smaller steps.
+- An error in one message no longer stops the export. Only that message is skipped.
+- The scroll method reads each whole turn, including images outside the text block, and scrolls in smaller steps.
 
 ## [0.1.0] - 2026-09-25
 
 ### Added
 
-- Initial version: the extension button exports the open conversation as `.md`.
-- Primary method via ChatGPT's internal API (full conversation, with formatting).
-- Fallback method by scrolling the page.
-- Removal of internal citation markers.
+- First version: the extension button exports the open conversation as `.md`.
+- Main method: ChatGPT's internal API, which returns the full conversation with its formatting.
+- Fallback method: scrolling the page.
+- Internal citation markers are removed from the text.
