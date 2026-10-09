@@ -79,6 +79,10 @@ The scroll method is the fallback. It scrolls the conversation to the top, then 
 
 The change history is in [CHANGELOG.md](CHANGELOG.md).
 
+## Acknowledgements
+
+Developed with the help of Claude Opus 5.5, an AI model by Anthropic.
+
 ## License
 
 [MIT](LICENSE) © VitorGaRi
